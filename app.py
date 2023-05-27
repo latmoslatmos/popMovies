@@ -12,7 +12,7 @@ st.set_page_config(page_title='Popular Movies', page_icon='🎬', layout='wide')
 #st.title('Popular Movies')
 st.markdown("""  # Study of Popular Movies by Year and Genre
 
-Let's see the poular movies in the selected range of years. 
+Let's see the popular movies in the selected range of years. 
 
 'Movie Lens Latest Small Dataset' is used for this study. 
 
@@ -30,7 +30,6 @@ df_movies_ratings['mean_ratings'] = df_movies_ratings.groupby('movieId')['rating
 df_movies_ratings.drop_duplicates('movieId', keep='first', inplace=True)
 
 
-# title içinden yıl bilgisini alacak fonksiyon
 # title içinden yıl bilgisini alacak fonksiyon
 def scrape_year(title):
     res = re.findall(r'\(.*?\)', title)
@@ -116,6 +115,15 @@ filtered_movies_genres = filtered_movies[filtered_movies['genres_list'].apply(is
 filtered_movies_genres_sorted = filtered_movies_genres.sort_values(by=['total_ratings','mean_ratings'],ascending=False)
 
 movies_list = filtered_movies_genres_sorted[['movieId','title','genres','total_ratings','mean_ratings']]
+
+# sayfa basliklarini gostermeyelim.
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 # gosterilecek liste
 st.dataframe(data=movies_list)
